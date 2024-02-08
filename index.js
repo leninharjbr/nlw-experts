@@ -128,4 +128,4 @@ const quiz = document.querySelector('#quiz')
     // coloca a pergunta na tela
     quiz.appendChild(quizItem)
 
-
+//escopo
