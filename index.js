@@ -90,42 +90,44 @@ const perguntas = [
       correta: 0
     },
   ];
-  
-  
-  const quiz = document.querySelector('#quiz')
+
+const quiz = document.querySelector('#quiz')
   const template = document.querySelector('template')
   
-  const corretas = new Set ()
+  const corretas = new Set()
   const totalDePerguntas = perguntas.length
   const mostrarTotal = document.querySelector('#acertos span')
   mostrarTotal.textContent = corretas.size + ' de ' + totalDePerguntas
   
-  //loop ou laço de repetição
-  for(const item of perguntas) {
+  // loop ou laço de repetição
+  for(const item of perguntas)
+  {
+    // Clona tudo da tag template
     const quizItem = template.content.cloneNode(true)
+    // Foca no h3 para colocar a pergunta.
     quizItem.querySelector('h3').textContent = item.pergunta
   
-  for(let resposta of item.respostas){
-  const dt = quizItem.querySelector('dl dt').cloneNode(true)
-  dt.querySelector('span').textContent = resposta
-  dt.querySelector('input').setAttribute('name', 'pergunta-' * perguntas.indexOf(item))
-  dt.querySelector('input').value = item.respostas.indexOf(resposta)
-  dt.querySelector('input').onchange = (event) => {
+    for (let resposta of item.respostas) 
+    {
+      const dt = quizItem.querySelector('dl dt').cloneNode(true)
+      dt.querySelector('span').textContent = resposta
+      dt.querySelector('input').setAttribute('name', 'pergunta-' + (perguntas.indexOf(item)+1))
+      dt.querySelector('input').value = item.respostas.indexOf(resposta)
+      dt.querySelector('input').onchange = (event) => {
+        const estaCorreta = event.target.value == item.correta
   
-  const estaCorreta = event.target.value == item.correta // true
-  corretas.delete(item)
-  if(estaCorreta){
-  corretas.add(item)
-   }
+        corretas.delete(item)
+        if (estaCorreta){
+          corretas.add(item)
+        }
+        mostrarTotal.textContent = corretas.size + ' de ' + totalDePerguntas
+      }
+      quizItem.querySelector('dl').appendChild(dt)
+    }
   
-  mostrarTotal.textContent = corretas.size + ' de ' + totalDePerguntas
-  
-  }
-  
-  quizItem.querySelector('dl').appendChild(dt)
-  }
-  quizItem.querySelector('dl dt').remove()
-    //Coloca a pergunta na tela
+    quizItem.querySelector('dl dt').remove()
+    // Coloca a pergunta na tela
     quiz.appendChild(quizItem)
   }
-  //escopo
+  
+  
